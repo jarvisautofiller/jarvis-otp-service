@@ -31,8 +31,8 @@ def call_user(req: CallRequest):
         call_status_store[sid] = "pending"
 
     # Wait up to 30 seconds for result
-    timeout = 30
-    interval = 2
+    timeout = 120
+    interval = 1
     waited = 0
 
     while waited < timeout:
@@ -51,15 +51,28 @@ async def call_response(request: Request):
     try:
         form = await request.form()
         digits = form.get("Digits")
+        speech = form.get("SpeechResult")
         call_sid = form.get("CallSid")
         caller = form.get("From")
 
-        if digits is None:
-            result = "no-input"
-        elif digits == "1":
-            result = "validated"
+        if digits:
+            result = "validated" if digits == "1" else "failed"
+            response_text = f"You pressed {digits}. Your response is recorded as {result}."
+            print(response_text)
+        elif speech:
+            print("User said:", speech)
+            if "yes" in speech.lower():
+                result = "validated"
+            else:
+                result = "failed"
+            response_text = f"You said '{speech}'. Your response is recorded as {result}."
+            print(response_text)
+
         else:
-            result = "failed"
+            result = "no-input"
+            response_text = "No input received. Please try again later."
+            print(response_text)
+
 
         # Update call status
         with store_lock:
@@ -69,7 +82,7 @@ async def call_response(request: Request):
 
         response_twiml = f"""
         <Response>
-            <Say>Thank you. Your input has been recorded as {digits}.</Say>
+            <Say>{response_text}</Say>
             <Hangup/>
         </Response>
         """
