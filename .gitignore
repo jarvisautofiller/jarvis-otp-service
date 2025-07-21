@@ -13,3 +13,5 @@ env/
 *.env
 *.pem
 *.key
+
+deploy.sh
