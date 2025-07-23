@@ -20,9 +20,9 @@ def call_user(req: CallRequest):
     try:
         num = phonenumbers.parse(req.mobile)
         if not phonenumbers.is_valid_number(num):
-            raise HTTPException(status_code=404, detail="Bad request")
+            raise HTTPException(status_code=400, detail="Bad request")
     except Exception:
-        raise HTTPException(status_code=404, detail="Bad request")
+        raise HTTPException(status_code=400, detail="Bad request")
 
     sid = initiate_voice_call(req.mobile)
 

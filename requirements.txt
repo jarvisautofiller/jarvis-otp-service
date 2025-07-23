@@ -5,3 +5,9 @@ python-dotenv
 requests
 phonenumbers
 python-multipart
+
+#testing
+pytest
+httpx
+pytest-asyncio
+
