@@ -96,38 +96,3 @@ async def call_response(request: Request):
         )
  
 app.include_router(router)
-
-
-# @app.post("/call-status")
-# async def call_status(request: Request):
-#     form = await request.form()
-#     call_sid = form.get("CallSid")
-#     call_status = form.get("CallStatus")
-#     to_number = form.get("To")
-
-#     print(f"📞 Call Status: {call_sid} → {to_number} → Status: {call_status}")
-
-#     # Example logic
-#     if call_status == "no-answer":
-#         print("❌ User did not pick up.")
-#     elif call_status == "completed":
-#         print("✅ Call was answered and completed.")
-#     elif call_status == "failed":
-#         print("⚠️ Failed to connect. Possibly invalid number.")
-#     # etc...
-
-#     return {"ok": True}
-
-
-
-# Uncomment this section if you want to serve TwiML directly
-# @app.get("/voice.xml")
-# def serve_twiml():
-#     xml = """
-#     <Response>
-#       <Say>Press 1 to confirm your action.</Say>
-#       <Gather action="/call-response" method="POST" numDigits="1" timeout="10"/>
-#     </Response>
-#     """
-#     return Response(content=xml, media_type="application/xml")
-

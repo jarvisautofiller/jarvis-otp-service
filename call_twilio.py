@@ -14,8 +14,5 @@ def initiate_voice_call(to_number: str) -> str:
         to=to_number,
         from_=TWILIO_FROM,
         url=GATHER_URL,
-        # status_callback="https://yourapi.com/call-status",
-        # status_callback_event=["completed"],  # Completed is enough for post-call result
-        # status_callback_method="POST"
     )
     return call.sid
